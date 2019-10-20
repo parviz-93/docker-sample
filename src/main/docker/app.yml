@@ -1,0 +1,36 @@
+version: '2.1'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    restart: always
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka
+    ports:
+      - "9092:9092"
+    depends_on:
+      - zookeeper
+    environment:
+      HOSTNAME_COMMAND: "echo $$(hostname)"
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_PORT: 9092
+      BROKER_ID_COMMAND: "docker inspect --format '{{ .Name }}' $$(hostname) | awk -F_ '{ printf $$NF }'"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_CREATE_TOPICS: "topic-from:3:1,topic-to:3:1:delete" # partition - 3, replica 2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  redis:
+    image: redis
+    ports:
+      - "6379:6379"
+  pick-app:
+    image: pick
+    depends_on:
+      - zookeeper
+      - kafka
+      - redis
+    environment:
+      - "JAVA_OPTS=-Xmx512m -Xmx512m -Dkafka=kafka:9092 -Dredis=redis:6379"
+      - SLEEP=10 # gives time for kafka and redis to boot before the application
+
