@@ -8,8 +8,8 @@ Before you can build this project, you must install and configure the following 
 
 ###### java 1.8
 ###### docker
-###### minikube
-###### kubecli
+###### minikube (todo)
+###### kubecli (todo)
 
 ### Packaging as jar
 
