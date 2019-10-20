@@ -13,7 +13,7 @@
         <appender-ref ref="console"/>
     </root>
 
-    <category name="com.sbt">
+    <category name="com.sample">
         <level value="debug"/>
     </category>
 

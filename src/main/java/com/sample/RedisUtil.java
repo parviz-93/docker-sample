@@ -1,4 +1,4 @@
-package com.sbt;
+package com.sample;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

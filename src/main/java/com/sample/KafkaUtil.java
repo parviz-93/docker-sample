@@ -1,4 +1,4 @@
-package com.sbt;
+package com.sample;
 
 import org.apache.kafka.clients.consumer.Consumer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
