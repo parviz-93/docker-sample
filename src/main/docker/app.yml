@@ -17,7 +17,8 @@ services:
       KAFKA_PORT: 9092
       BROKER_ID_COMMAND: "docker inspect --format '{{ .Name }}' $$(hostname) | awk -F_ '{ printf $$NF }'"
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_CREATE_TOPICS: "topic-from:3:1,topic-to:3:1:delete" # partition - 3, replica 2
+      KAFKA_CREATE_TOPICS: "topic-from:3:1,topic-to:3:1:compact" # partition - 3, replica 2
+      LOG_CLEANER_THREADS: 3
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
   redis:
