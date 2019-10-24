@@ -1,11 +1,11 @@
 package com.sbt.hackathon.filter.impl.redis;
 
+import com.google.common.hash.Hashing;
 import com.sbt.hackathon.filter.Filter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.redisson.api.RSet;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,7 +31,7 @@ public class RedisFilter implements Filter {
     }
 
     private byte[] getHashCode(byte[] value) {
-        return String.valueOf(new String(value, StandardCharsets.UTF_8).hashCode()).getBytes();
+        return Hashing.murmur3_128().hashBytes(value).asBytes();
     }
 
 }
