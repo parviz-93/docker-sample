@@ -18,6 +18,7 @@ import java.util.concurrent.Future;
 public class Generator {
 
     private final String DEFAULT_BOOTSTRAP_SERVERS = "45.12.236.20:9093,45.12.236.21:9093,45.12.236.34:9093";
+    private final String DEFAULT_TOPIC = "team7-test-input";
     private long sended = 0;
     private long doubleCount = 0;
 
@@ -28,13 +29,12 @@ public class Generator {
 
     public static void main(String[] args) throws ExecutionException, InterruptedException {
         Generator generator = new Generator();
-        generator.init(args[0], args[1]);
+        generator.init(null,null);
         generator.start();
     }
 
     public void init(String bootstrapServers, String topic) {
-        if (topic == null) throw new IllegalArgumentException("You must specify topic!");
-        this.topic = topic;
+        this.topic = topic == null ? DEFAULT_TOPIC : topic;
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers == null ? DEFAULT_BOOTSTRAP_SERVERS : bootstrapServers);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
@@ -46,7 +46,7 @@ public class Generator {
         properties.put("ssl.keystore.location", "team7developer.jks");
         properties.put("ssl.keystore.password", "RyFoP2T4RvXR");
         properties.put("ssl.key.password", "RyFoP2T4RvXR");
-        producer = new KafkaProducer<>(properties);
+        producer = new KafkaProducer<byte[], byte[]>(properties);
     }
 
     public void start() {
