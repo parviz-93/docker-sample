@@ -18,9 +18,12 @@ public class KafkaSink implements Sink {
     private KafkaProducer<byte[], byte[]> producer;
 
     public KafkaSink(String bootstrapServers, String topic) {
-        this.topic = topic == null ? DEFAULT_TOPIC : topic;
+        if(bootstrapServers==null||topic==null)
+            throw new IllegalArgumentException(this.getClass().getName()+" You must specify arguments for app! see sourcecode!");
+
+        this.topic = topic;
         Properties properties = new Properties();
-        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers == null ? DEFAULT_BOOTSTRAP_SERVERS : bootstrapServers);
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
         properties.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
