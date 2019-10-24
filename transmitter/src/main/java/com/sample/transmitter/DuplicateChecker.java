@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class DuplicateChecker {
     Set<String> set = new HashSet<>();
-    MessageDigest digest = MessageDigest.getInstance( "SHA-1" );
+    MessageDigest digest = MessageDigest.getInstance( "MD5" );
 
     public DuplicateChecker() throws NoSuchAlgorithmException {
     }
