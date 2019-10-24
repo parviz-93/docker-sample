@@ -1,6 +1,10 @@
 package com.sample.transmitter;
 
-import java.util.*;
+import com.sbt.hackathon.filter.Filter;
+import com.sbt.hackathon.filter.impl.redis.RedisFilterFactory;
+
+import java.util.List;
+import java.util.UUID;
 
 public class App {
     public static void main(String[] args) throws Exception {
@@ -18,32 +22,20 @@ public class App {
         Source source = new KafkaSource(consumerBootstrapServers, consumerTopicPattern, UUID.randomUUID().toString());
         Sink sink = new KafkaSink(producerBootstrapServers, producerTopicPattern);
 
-        MurDuplicateChecker duplicateChecker = new MurDuplicateChecker();
-        long doubicate = 0;
-        long allrecords = 0;
+        RedisFilterFactory filterFactory = new RedisFilterFactory("0.0.0.0:6379");
 
-        while (!Thread.interrupted()) {
-            List<byte[]> records = source.get();
+        Filter filter = filterFactory.getInstance("LOCAL_TEST");
+        filter.reset();
 
-            System.out.println(records.size());
-
-            for (byte[] record : records) {
-
-                if (duplicateChecker.isDuplicated(record)) {
-                    doubicate++;
-                }
-            }
-
-
-            allrecords = allrecords + records.size();
-            sink.put(records);
-            source.commit();
-            System.out.println("dublicates: " + doubicate);
-            System.out.println("allrecords   : " + allrecords);
-
-
+        while(!Thread.interrupted()){
+            List<byte[]> read = source.get();
+            System.out.println("Прочитано " + read.size());
+            List<byte[]> write = filter.filtrate(read);
+            System.out.println("Записано " + write.size());
+            sink.put(write);
+            System.out.println("Дубликатов отброшено " + (read.size() - write.size()));
         }
 
-        // System.out.println("original: " + set.size());
+        filterFactory.close();
     }
 }

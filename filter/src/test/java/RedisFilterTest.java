@@ -25,8 +25,8 @@ public class RedisFilterTest {
 
     @Before
     public void before() {
-        RedisTestUtils.clearRadisSet(connect, setName);
         filter = filterFactory.getInstance(setName);
+        filter.reset();
     }
 
     @Test
