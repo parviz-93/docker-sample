@@ -14,7 +14,7 @@ public class RedisFilter implements Filter {
 
     @NonNull
     private RSet<byte[]> set;
-    
+
     public List<byte[]> filtrate(List<byte[]> input) {
         List<byte[]> output = new ArrayList<>();
         for (byte[] value : input) {
@@ -25,8 +25,13 @@ public class RedisFilter implements Filter {
         return output;
     }
 
+    @Override
+    public void reset() {
+        set.clear();
+    }
+
     private byte[] getHashCode(byte[] value) {
         return String.valueOf(new String(value, StandardCharsets.UTF_8).hashCode()).getBytes();
     }
-    
+
 }

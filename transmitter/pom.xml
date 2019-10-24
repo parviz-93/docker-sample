@@ -101,6 +101,11 @@
             <artifactId>guava</artifactId>
             <version>28.1-jre</version>
         </dependency>
+        <dependency>
+            <groupId>com.sbt</groupId>
+            <artifactId>filter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
 </project>
