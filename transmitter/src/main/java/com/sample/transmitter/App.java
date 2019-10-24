@@ -15,10 +15,11 @@ public class App {
 
         DuplicateChecker duplicateChecker = new DuplicateChecker();
         long doubicate = 0;
-        long allrecords =0;
+        long allrecords = 0;
 
         while (!Thread.interrupted()) {
             List<byte[]> records = source.get();
+
             System.out.println(records.size());
 
             for (byte[] record : records) {
@@ -27,14 +28,17 @@ public class App {
                     doubicate++;
                 }
             }
-            allrecords=allrecords+records.size();
 
+
+            allrecords = allrecords + records.size();
+            sink.put(records);
+            source.commit();
             System.out.println("dublicates: " + doubicate);
             System.out.println("allrecords   : " + allrecords);
 
 
         }
 
-       // System.out.println("original: " + set.size());
+        // System.out.println("original: " + set.size());
     }
 }

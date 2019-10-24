@@ -18,8 +18,8 @@ public class KafkaSink implements Sink {
     private KafkaProducer<byte[], byte[]> producer;
 
     public KafkaSink(String bootstrapServers, String topic) {
-        if(bootstrapServers==null||topic==null)
-            throw new IllegalArgumentException(this.getClass().getName()+" You must specify arguments for app! see sourcecode!");
+        if (bootstrapServers == null || topic == null)
+            throw new IllegalArgumentException(this.getClass().getName() + " You must specify arguments for app! see sourcecode!");
 
         this.topic = topic;
         Properties properties = new Properties();
