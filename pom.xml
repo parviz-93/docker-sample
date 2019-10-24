@@ -12,6 +12,7 @@
         <module>generator</module>
       <module>pick</module>
         <module>transmitter</module>
+      <module>filter</module>
     </modules>
 
     <name>pick-and-place</name>
