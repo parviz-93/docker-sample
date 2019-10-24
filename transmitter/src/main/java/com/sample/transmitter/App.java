@@ -4,11 +4,16 @@ import java.util.*;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        String consumerBootstrapServers = args[0];
-        String consumerTopicPattern = args[1];
 
-        String producerBootstrapServers = args[2];
-        String producerTopicPattern = args[3];
+        for (String arg : args) {
+            System.out.println(arg);
+        }
+
+        String consumerBootstrapServers = System.getenv("kafka-external");
+        String consumerTopicPattern = System.getenv("topic-for-consumer");
+
+        String producerBootstrapServers = System.getenv("kafka-producer");
+        String producerTopicPattern = System.getenv("topic-for-producer");
 
         Source source = new KafkaSource(consumerBootstrapServers, consumerTopicPattern, UUID.randomUUID().toString());
         Sink sink = new KafkaSink(producerBootstrapServers, producerTopicPattern);
