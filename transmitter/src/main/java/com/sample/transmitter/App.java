@@ -3,33 +3,38 @@ package com.sample.transmitter;
 import java.util.*;
 
 public class App {
-    public static void main(String[] args) throws Exception{
-        Source source = new KafkaSource(args[0],args[1],args[2]);
-        Sink sink = new KafkaSink(args[3],args[4]);
+    public static void main(String[] args) throws Exception {
+        String consumerBootstrapServers = args[0];
+        String consumerTopicPattern = args[1];
 
-        Set<Integer> set = new HashSet<>();
-        int doubicate = 0;
-        int hash;
+        String producerBootstrapServers = args[2];
+        String producerTopicPattern = args[3];
 
-        while(!Thread.interrupted()){
+        Source source = new KafkaSource(consumerBootstrapServers, consumerTopicPattern, UUID.randomUUID().toString());
+        Sink sink = new KafkaSink(producerBootstrapServers, producerTopicPattern);
+
+        DuplicateChecker duplicateChecker = new DuplicateChecker();
+        long doubicate = 0;
+        long allrecords =0;
+
+        while (!Thread.interrupted()) {
             List<byte[]> records = source.get();
             System.out.println(records.size());
 
             for (byte[] record : records) {
-                hash = Arrays.hashCode(record);
-                if(!set.contains(hash)){
-                    set.add(hash);
-                } else {
+
+                if (duplicateChecker.isDuplicated(record)) {
                     doubicate++;
                 }
             }
+            allrecords=allrecords+records.size();
 
             System.out.println("dublicates: " + doubicate);
-            System.out.println("origins   : " + set.size());
+            System.out.println("allrecords   : " + allrecords);
 
-//            sink.put(records);
+
         }
 
-        System.out.println("original: " + set.size());
+       // System.out.println("original: " + set.size());
     }
 }

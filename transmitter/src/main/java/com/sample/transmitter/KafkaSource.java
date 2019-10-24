@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class KafkaSource implements Source {
 
     private final String DEFAULT_BOOTSTRAP_SERVERS = "45.12.236.20:9093,45.12.236.21:9093,45.12.236.34:9093";
-    private final String DEFAULT_TOPIC = "team7-test-input";
+    private final String DEFAULT_TOPIC = "input";
 
     private KafkaConsumer<byte[], byte[]> consumer;
 
