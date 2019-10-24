@@ -7,14 +7,10 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.apache.kafka.common.config.SslConfigs;
 import org.apache.kafka.common.serialization.ByteArraySerializer;
-import org.apache.log4j.Level;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.xml.bind.annotation.XmlType;
 import java.nio.charset.Charset;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -50,7 +46,7 @@ public class Generator {
         properties.put("ssl.keystore.location", "team7developer.jks");
         properties.put("ssl.keystore.password", "RyFoP2T4RvXR");
         properties.put("ssl.key.password", "RyFoP2T4RvXR");
-        producer = new KafkaProducer<byte[], byte[]>(properties);
+        producer = new KafkaProducer<>(properties);
     }
 
     public void start() {
