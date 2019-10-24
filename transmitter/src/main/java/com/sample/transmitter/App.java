@@ -13,29 +13,28 @@ public class App {
         Source source = new KafkaSource(consumerBootstrapServers, consumerTopicPattern, UUID.randomUUID().toString());
         Sink sink = new KafkaSink(producerBootstrapServers, producerTopicPattern);
 
-        HashMap<byte[], String> set = new HashMap<>();
-        int doubicate = 0;
-        int hash;
+        DuplicateChecker duplicateChecker = new DuplicateChecker();
+        long doubicate = 0;
+        long allrecords =0;
 
         while (!Thread.interrupted()) {
             List<byte[]> records = source.get();
             System.out.println(records.size());
 
             for (byte[] record : records) {
-                hash = Arrays.hashCode(record);
-                if (set.get(record) == null) {
-                    set.put(record, "");
-                } else {
+
+                if (duplicateChecker.isDuplicated(record)) {
                     doubicate++;
                 }
             }
+            allrecords=allrecords+records.size();
 
             System.out.println("dublicates: " + doubicate);
-            System.out.println("origins   : " + set.size());
+            System.out.println("allrecords   : " + allrecords);
 
-//            sink.put(records);
+
         }
 
-        System.out.println("original: " + set.size());
+       // System.out.println("original: " + set.size());
     }
 }
