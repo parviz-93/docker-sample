@@ -3,22 +3,28 @@ package com.sample.transmitter;
 import java.util.*;
 
 public class App {
-    public static void main(String[] args) throws Exception{
-        Source source = new KafkaSource(args[0],args[1],args[2]);
-        Sink sink = new KafkaSink(args[3],args[4]);
+    public static void main(String[] args) throws Exception {
+        String consumerBootstrapServers = args[0];
+        String consumerTopicPattern = args[1];
 
-        Set<Integer> set = new HashSet<>();
+        String producerBootstrapServers = args[2];
+        String producerTopicPattern = args[3];
+
+        Source source = new KafkaSource(consumerBootstrapServers, consumerTopicPattern, UUID.randomUUID().toString());
+        Sink sink = new KafkaSink(producerBootstrapServers, producerTopicPattern);
+
+        HashMap<byte[], String> set = new HashMap<>();
         int doubicate = 0;
         int hash;
 
-        while(!Thread.interrupted()){
+        while (!Thread.interrupted()) {
             List<byte[]> records = source.get();
             System.out.println(records.size());
 
             for (byte[] record : records) {
                 hash = Arrays.hashCode(record);
-                if(!set.contains(hash)){
-                    set.add(hash);
+                if (set.get(record) == null) {
+                    set.put(record, "");
                 } else {
                     doubicate++;
                 }
