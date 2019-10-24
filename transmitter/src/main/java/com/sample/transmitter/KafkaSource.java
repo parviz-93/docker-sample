@@ -32,9 +32,9 @@ public class KafkaSource implements Source {
         props.put("key.deserializer", ByteArrayDeserializer.class);
         props.put("value.deserializer", ByteArrayDeserializer.class);
         props.put("security.protocol", "SSL");
-        props.put("ssl.truststore.location", "team7developer.jks");
+        props.put("ssl.truststore.location", "/app/resources/team7developer.jks");
         props.put("ssl.truststore.password", "RyFoP2T4RvXR");
-        props.put("ssl.keystore.location", "team7developer.jks");
+        props.put("ssl.keystore.location", "/app/resources/team7developer.jks");
         props.put("ssl.keystore.password", "RyFoP2T4RvXR");
         props.put("ssl.key.password", "RyFoP2T4RvXR");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
@@ -55,7 +55,6 @@ public class KafkaSource implements Source {
                                 new TopicPartition(record.topic(), record.partition()),
                                 new OffsetAndMetadata(record.offset())
                         );
-                        System.out.println(record.topic() + " " + record.offset());
                         recordsBytes.add(record.value());
                     }
             );

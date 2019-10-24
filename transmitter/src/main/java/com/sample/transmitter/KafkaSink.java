@@ -28,7 +28,7 @@ public class KafkaSink implements Sink {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, ByteArraySerializer.class);
         properties.put(SslConfigs.SSL_ENDPOINT_IDENTIFICATION_ALGORITHM_CONFIG, "");
         properties.put("security.protocol", "SSL");
-        properties.put("ssl.truststore.location", "/app/resources//team7developer.jks");
+        properties.put("ssl.truststore.location", "/app/resources/team7developer.jks");
         properties.put("ssl.truststore.password", "RyFoP2T4RvXR");
         properties.put("ssl.keystore.location", "/app/resources/team7developer.jks");
         properties.put("ssl.keystore.password", "RyFoP2T4RvXR");

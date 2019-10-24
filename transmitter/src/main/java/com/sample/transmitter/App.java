@@ -18,7 +18,7 @@ public class App {
         Source source = new KafkaSource(consumerBootstrapServers, consumerTopicPattern, UUID.randomUUID().toString());
         Sink sink = new KafkaSink(producerBootstrapServers, producerTopicPattern);
 
-        DuplicateChecker duplicateChecker = new DuplicateChecker();
+        MurDuplicateChecker duplicateChecker = new MurDuplicateChecker();
         long doubicate = 0;
         long allrecords = 0;
 
